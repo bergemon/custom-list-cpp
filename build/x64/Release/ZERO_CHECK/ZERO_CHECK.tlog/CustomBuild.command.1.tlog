@@ -1,0 +1,10 @@
+^D:\PROGRAMMING\CPP\CMAKE PROJECTS\CUSTOM_LIST_CPP\BUILD\CMAKEFILES\447C06E46D4A9CE3E893C09EBD685669\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SD:/Programming/CPP/CMake Projects/custom_list_cpp" "-BD:/Programming/CPP/CMake Projects/custom_list_cpp/build" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "D:/Programming/CPP/CMake Projects/custom_list_cpp/build/custom_list_cpp.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

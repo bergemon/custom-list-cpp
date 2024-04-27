@@ -1,0 +1,9 @@
+D:/Programming/CPP/CMake Projects/custom_list_cpp/build/CMakeFiles/Experimental.dir
+D:/Programming/CPP/CMake Projects/custom_list_cpp/build/CMakeFiles/Nightly.dir
+D:/Programming/CPP/CMake Projects/custom_list_cpp/build/CMakeFiles/Continuous.dir
+D:/Programming/CPP/CMake Projects/custom_list_cpp/build/CMakeFiles/NightlyMemoryCheck.dir
+D:/Programming/CPP/CMake Projects/custom_list_cpp/build/CMakeFiles/custom_list_executable.dir
+D:/Programming/CPP/CMake Projects/custom_list_cpp/build/CMakeFiles/PACKAGE.dir
+D:/Programming/CPP/CMake Projects/custom_list_cpp/build/CMakeFiles/RUN_TESTS.dir
+D:/Programming/CPP/CMake Projects/custom_list_cpp/build/CMakeFiles/ALL_BUILD.dir
+D:/Programming/CPP/CMake Projects/custom_list_cpp/build/CMakeFiles/ZERO_CHECK.dir
