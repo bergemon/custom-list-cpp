@@ -1,12 +1,39 @@
 #include <cstdint>
 
 template<typename T>
-class list_container;
-
-template<typename T>
 class custom_list
 {
+    template<typename T>
+    class list_container
+    {
+        friend class custom_list<T>;
+
+        T m_data;
+
+        list_container<T>* m_next = nullptr;
+        list_container<T>* m_prev = nullptr;
+
+        // Constructor
+        list_container(T data): m_data(data) { }
+
+        T& data() { return m_data; }
+
+        list_container<T>* get_next() { return m_next; }
+
+        list_container<T>* get_prev() { return m_prev; }
+
+        void set_next(list_container<T>* next)
+        {
+            m_next = next;
+        }
+        void set_prev(list_container<T>* prev)
+        {
+            m_prev = prev;
+        }
+    };
+
     list_container<T>* m_first = nullptr;
+    list_container<T>* m_medial = nullptr;
     list_container<T>* m_last = nullptr;
     size_t m_length = 0;
 
@@ -28,9 +55,42 @@ public:
 
         list_container<T>* current = m_first;
 
-        for (int i = 0; i < index; ++i)
+        // if index is closer to the beginning
+        if (index < m_length / 4)
         {
-            current = current->m_next;
+            for (uint64_t i = 0; i < index; ++i)
+            {
+                current = current->get_next();
+            }
+        }
+
+        // if index is closer to medial element
+        if(
+            index > m_length / 4
+            && index > m_length / 2
+            && index < m_length - (m_length / 4)
+        )
+        {
+            current = m_medial;
+
+            // -1 because index starts from 0
+            uint64_t start_index = (m_length % 2 == 1 ? (m_length / 2 + 1) : (m_length / 2)) - 1;
+
+            for (uint64_t i = start_index; i < index; ++i)
+            {
+                current = current->get_next();
+            }
+        }
+
+        // if index is closer to the end
+        if (index > m_length - (m_length / 4))
+        {
+            current = m_last;
+
+            for (uint64_t i = m_length - 1; i > index; --i)
+            {
+                current = current->get_prev();
+            }
         }
 
         return current->data();
@@ -41,8 +101,9 @@ public:
         if (!m_length)
         {
             m_first = new list_container(data);
-            m_length++;
+            m_medial = m_first;
             m_last = m_first;
+            m_length++;
 
             // First container will have two pointers that point to the first container
             m_first->set_next(m_first);
@@ -74,6 +135,11 @@ public:
             m_first->set_prev(m_last);
 
             m_length++;
+
+            if (m_length % 2 == 1)
+            {
+                m_medial = m_medial->get_next();
+            }
         }
     }
 
@@ -92,6 +158,11 @@ public:
             m_first = second;
 
             --m_length;
+
+            if (m_length % 2 == 0)
+            {
+                m_medial = m_medial->get_prev();
+            }
         }
         else
         {
@@ -118,6 +189,11 @@ public:
             m_last = penultimate;
 
             --m_length;
+
+            if (m_length % 2 == 0)
+            {
+                m_medial = m_medial->get_prev();
+            }
         }
         else
         {
@@ -132,36 +208,17 @@ public:
             m_last->set_prev(penultimate);
         }
     }
-};
 
-template<typename T>
-class list_container
-{
-    friend class custom_list<T>;
-
-    T m_data;
-
-    list_container<T>* m_next = nullptr;
-    list_container<T>* m_prev = nullptr;
-
-    // Constructor
-    list_container(T data): m_data(data) { }
-
-    T& data()
+    // Destructor
+    ~custom_list()
     {
-        return m_data;
-    }
+        list_container<T>* next = m_first;
 
-    list_container<T>* get_next() { return m_next; }
-
-    list_container<T>* get_prev() { return m_prev; }
-
-    void set_next(list_container<T>* next)
-    {
-        m_next = next;
-    }
-    void set_prev(list_container<T>* prev)
-    {
-        m_prev = prev;
+        for (uint64_t i = 0; i < m_length; ++i)
+        {
+            list_container<T>* prev = next;
+            next = prev->get_next();
+            delete prev;
+        }
     }
 };
